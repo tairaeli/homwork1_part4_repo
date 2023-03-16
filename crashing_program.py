@@ -2,7 +2,7 @@
 This code takes a function f(x), finds a root numerically, and integrates
 numerically from x=0 to x=root.
 Written by:  Brian O'Shea, oshea@msu.edu
-This is the CRASHING VERSION of the code.  There are TWO BUGS (that I know of).
+This is the WORKING VERSION of the code.  There are NO BUGS (that I know of).
 '''
 import numpy as np
 import math
@@ -28,7 +28,7 @@ def deriv(f,x,h,points):
     elif points==3:
         return (f(x+h)-f(x-h))/(2.0*h)
     elif points==5:
-        return (f(x-2.0*h)-8.0*f(x-h)+8.0*f(x+h)+f(x+2.0*h))/(12.0*h)
+        return (-1/12*f(x+2*h) + 2/3*f(x+h) -2/3*f(x-h) + 1/12*f(x-2*h))/h
     else:
         print("ERROR: deriv() cannot handle this many points:", points, flush=True)
         exit()
@@ -64,7 +64,7 @@ def secant(f,guess,points=5,h=1.0e-5,tol=1.0e-6, itmax=100,debug=False):
         dfdx_last = deriv(f,x_last,h,points)        
         x_new = x_last - f_last/dfdx_last
         this_iter += 1
-
+        
         # print out some useful debug info
         if debug==True:
             print("DEBUG - secant:",x_new,f(x_new),dfdx_last,this_iter, flush=True)
@@ -78,7 +78,7 @@ def secant(f,guess,points=5,h=1.0e-5,tol=1.0e-6, itmax=100,debug=False):
         return x_new, this_iter
 
 
-def trapezoid(f,start,end,epsilon=1.0-6,itmax=100,debug=False):
+def trapezoid(f,start,end,epsilon=1.0e-5,itmax=100,debug=False):
     '''
     Trapezoidal rule integrator.  This starts with a single step over the 
     interval given (end-start) and keeps doubling the number of steps until
@@ -101,23 +101,23 @@ def trapezoid(f,start,end,epsilon=1.0-6,itmax=100,debug=False):
     old_integrand = 1.0e100
     new_integrand = 0.0
     this_iter = 0
-
+    
     # loop until the new integrand and old integrand are close enough to each other (within 
     # epsilon) OR we have exceeded the maximum number of iterations
     while (math.fabs(new_integrand-old_integrand)>epsilon) and (this_iter < itmax):
         old_integrand = new_integrand
-
+        
         # keep halving the size of the steps
         dx = (end-start)/2.0**this_iter
 
         new_integrand = 0.0
-
+        
         # this is the actual integral
         for i in range(2**this_iter):
             new_integrand += dx*0.5*(f(start + i*dx) + f(start+(i+1)*dx))
-
+        
         this_iter += 1
-
+        
         # print out some fun debugging information
         if debug == True:
             print("DEBUG - trapezoid:",old_integrand,new_integrand,dx,
@@ -133,13 +133,13 @@ def trapezoid(f,start,end,epsilon=1.0-6,itmax=100,debug=False):
 
 def main():
 
-    print("\nStarting our calculation.  Yay!\n")
+    print("\nStarting our calculation. Would be strange if something broke here\n")
 
     stencil_points = 5  # points in the stencil used for our numerical derivative in the secand method
     guess = -2.0        # initial guess for our root finder
     max_iters = 20      # maximum number of iterations for sectant and trapezoidal methods
     cheat_debug = False  # Boolean to turn on and off debugging information.
-
+    
     root, root_iters = secant(fofx,guess,points=stencil_points,debug=cheat_debug,itmax=max_iters)
     print("\nThe root I have found is:", root, ", which took", root_iters, "iterations.\n")
 
