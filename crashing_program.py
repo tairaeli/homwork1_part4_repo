@@ -2,7 +2,7 @@
 This code takes a function f(x), finds a root numerically, and integrates
 numerically from x=0 to x=root.
 Written by:  Brian O'Shea, oshea@msu.edu
-This is the CRASHING VERSION of the code.  There is ONE BUG (that I know of).
+This is the WORKING VERSION of the code.  There are NO BUGS (that I know of).
 '''
 import sys
 import math
@@ -27,7 +27,7 @@ def deriv(f,x,h,points):
     elif points==3:
         return (f(x+h)-f(x-h))/(2.0*h)
     elif points==5:
-        return (1/12*f(x+2*h) + 2/3*f(x+h) -2/3*f(x-h) + 1/12*f(x-2*h))/h
+        return (-1/12*f(x+2*h) + 2/3*f(x+h) -2/3*f(x-h) + 1/12*f(x-2*h))/h
     else:
         print("ERROR: deriv() cannot handle this many points:", points, flush=True)
         sys.exit()
