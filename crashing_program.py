@@ -15,13 +15,11 @@ def fofx(x):
 def deriv(f,x,h,points):
     '''
     1D numerical derivative calculator
-
     inputs:
         f = function f(x)
         x = point at which we wish to take a derivative
         h = interval over which to take the derivative
         points = number of points (2, 3, or 5) over which to take derivative
-
     outputs:  df/dx at x
     '''
     if points==2:
@@ -39,7 +37,6 @@ def secant(f,guess,points=5,h=1.0e-5,tol=1.0e-6, itmax=100,debug=False):
     Implementation of secant method (iterative root-finder; Newton's method
     with a numerical derivative).  This is a simple implementation and returns
     a single root, even if more than one exists.
-
     Inputs:
         f = function f(x)
         guess = guess to start the root finder
@@ -85,7 +82,6 @@ def trapezoid(f,start,end,epsilon=1.0e-5,itmax=100,debug=False):
     interval given (end-start) and keeps doubling the number of steps until
     the integrand for step N is within some tolerance of the integrand of step
     N-1.  Note that this is not looking at fractional change, just raw amount.
-
     Inputs:
         f = function f(x)
         start = starting point of interval
@@ -93,7 +89,6 @@ def trapezoid(f,start,end,epsilon=1.0e-5,itmax=100,debug=False):
         epsilon = allowed difference between Nth and N-1st interval.  Default: 1.0e-6
         itmax = max number of iterations.  Default: 100
         debug = Boolean argument to turn on debug output.  Default: False.
-
     Outputs:
         integrand = definite integral of f(x) from start to end of interval
         num_iters: the number of iterations it took to get this integrand    
